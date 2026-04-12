@@ -428,17 +428,20 @@ function draw(){
 draw();
 </script>
   <!-- RajaTech DevOps Assistant
-     Contact: rajasekharking1205@gmail.com -->
+       Contact: rajasekharking1205@gmail.com -->
 <script>
   (function(){
     var btn=document.createElement('div');
     btn.innerHTML='<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5M2 17l10 5 10-5M2 12l10 5 10-5"/></svg>';
     btn.style.cssText='position:fixed;bottom:24px;right:24px;width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#00e5b8,#3b9eff);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:9999;box-shadow:0 4px 20px rgba(0,229,184,0.4)';
+    
     var frame=document.createElement('iframe');
-    frame.src='https://69dba4d02a02e00008b9a907--rajasekhar-devopsbot.netlify.app';
+    frame.src='https://rajasekhar-devopsbot.netlify.app';
     frame.style.cssText='position:fixed;bottom:90px;right:24px;width:400px;height:600px;border:none;border-radius:16px;z-index:9998;display:none;box-shadow:0 20px 60px rgba(0,0,0,0.5)';
+    
     var open=false;
     btn.onclick=function(){open=!open;frame.style.display=open?'block':'none'};
+    
     document.body.appendChild(btn);
     document.body.appendChild(frame);
   })();
