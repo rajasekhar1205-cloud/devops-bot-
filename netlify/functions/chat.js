@@ -1,14 +1,13 @@
 // netlify/functions/chat.js
-// This runs on Netlify's server — your API key is NEVER exposed to the browser
+// RajaTech Solutions — DevOps Assistant backend
+// API key is stored securely as Netlify environment variable
 
 exports.handler = async (event) => {
 
-  // Only allow POST requests
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: 'Method not allowed' };
   }
 
-  // CORS headers — allows your frontend to call this function
   const headers = {
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Headers': 'Content-Type',
@@ -17,29 +16,25 @@ exports.handler = async (event) => {
 
   try {
     const { messages, system } = JSON.parse(event.body);
-
-    // API key is read from Netlify Environment Variable
-    // Set this in: Netlify Dashboard → Site → Environment Variables → ANTHROPIC_API_KEY
     const apiKey = process.env.ANTHROPIC_API_KEY;
 
     if (!apiKey) {
       return {
         statusCode: 500,
         headers,
-        body: JSON.stringify({ error: 'API key not configured on server' })
+        body: JSON.stringify({ error: 'API key not configured. Set ANTHROPIC_API_KEY in Netlify environment variables.' })
       };
     }
 
-    // Call Anthropic API from the server — key stays hidden
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': apiKey,
+        'Content-Type':      'application/json',
+        'x-api-key':         apiKey,
         'anthropic-version': '2023-06-01'
       },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
+        model:      'claude-sonnet-4-20250514',
         max_tokens: 1500,
         system,
         messages
@@ -52,15 +47,11 @@ exports.handler = async (event) => {
       return {
         statusCode: response.status,
         headers,
-        body: JSON.stringify({ error: data.error?.message || 'API error' })
+        body: JSON.stringify({ error: data.error?.message || 'Anthropic API error' })
       };
     }
 
-    return {
-      statusCode: 200,
-      headers,
-      body: JSON.stringify(data)
-    };
+    return { statusCode: 200, headers, body: JSON.stringify(data) };
 
   } catch (err) {
     return {
