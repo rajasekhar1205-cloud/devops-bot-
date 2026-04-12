@@ -1,0 +1,12 @@
+# netlify.toml
+# Tells Netlify where your function lives and how to build the site
+
+[build]
+  publish = "."                    # your index.html is in the root folder
+  functions = "netlify/functions"  # your chat.js function is here
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
