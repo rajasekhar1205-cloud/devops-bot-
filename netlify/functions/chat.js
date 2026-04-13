@@ -1,9 +1,7 @@
 // netlify/functions/chat.js
-// RajaTech Solutions — DevOps Assistant backend
-// API key is stored securely as Netlify environment variable
+// RajaTech Solutions — General DevOps chat handler
 
 exports.handler = async (event) => {
-
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: 'Method not allowed' };
   }
@@ -22,19 +20,19 @@ exports.handler = async (event) => {
       return {
         statusCode: 500,
         headers,
-        body: JSON.stringify({ error: 'API key not configured. Set ANTHROPIC_API_KEY in Netlify environment variables.' })
+        body: JSON.stringify({ error: 'API key not configured on server.' })
       };
     }
 
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
-        'Content-Type':      'application/json',
-        'x-api-key':         apiKey,
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
         'anthropic-version': '2023-06-01'
       },
       body: JSON.stringify({
-        model:      'claude-sonnet-4-20250514',
+        model: 'claude-sonnet-4-20250514',
         max_tokens: 1500,
         system,
         messages
